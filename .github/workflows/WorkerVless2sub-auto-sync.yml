@@ -1,4 +1,4 @@
-name: lede-auto-sync
+name: WorkerVless2sub-auto-sync
 
 on:
   push:
