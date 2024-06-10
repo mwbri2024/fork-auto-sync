@@ -1,0 +1,17 @@
+name: 自动清理工作流
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  workflow_dispatch:
+
+jobs:
+  Cleanup-Workflow-Logs:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Cleanup Workflow Logs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 7
