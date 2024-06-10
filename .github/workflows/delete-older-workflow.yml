@@ -1,21 +1,30 @@
-name: 删除workflow，清理工作流
-on:
-  #定时触发开始编译(把下面两个#去掉开启,时间设置请看定时编译说明)
-  schedule:
-    - cron: 0 0 * * *
+name: Delete Workflow File
 
+on:
+  schedule:
+    # 每天的0点 (使用UTC时间)
+    - cron: '0 0 * * *'
   workflow_dispatch:
+    # 允许手动触发工作流
 
 jobs:
-  del_workflow:
-    runs-on: Ubuntu-22.04
-    name: delete-workflow-runs
+  delete_workflow:
+    runs-on: ubuntu-latest
+
     steps:
-    
-      - name: 删除workflow，清理工作流
-        uses: Mattraks/delete-workflow-runs@v2
-        with:
-          token: ${{ secrets.REPO_TOKEN }}
-          repository: ${{ github.repository }}
-          retain_days: ${{ env.RETAIN_DAYS }}
-          keep_minimum_runs: 0
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Delete specific workflow file
+      run: |
+        rm -f .github/workflows/your-workflow-file.yml
+        
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Automatically delete specific workflow file"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
