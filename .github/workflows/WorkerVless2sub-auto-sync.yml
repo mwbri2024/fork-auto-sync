@@ -24,26 +24,10 @@ jobs:
           tags: true  # 确定是否使用-tags
 
       - name: 清理Actions空间
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          #!/bin/bash
-
-          # 获取7天以前的时间戳
-          SEVEN_DAYS_AGO=$(date -d '-7 days' +%s)
-
-          # 获取所有workflow runs
-          WORKFLOW_RUNS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs?per_page=100")
-
-          # 逐个检查并删除超过7天的run
-          for run_id in $(echo "$WORKFLOW_RUNS" | jq -r '.workflow_runs[] | select(.status == "completed") | .id'); do
-            run_created_at=$(echo "$WORKFLOW_RUNS" | jq -r ".workflow_runs[] | select(.id == $run_id) | .created_at")
-            run_created_at_ts=$(date -d "$run_created_at" +%s)
-
-            if [[ $run_created_at_ts -lt $SEVEN_DAYS_AGO ]]; then
-              echo "Deleting run $run_id created at $run_created_at"
-              curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-                "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id"
-            fi
-          done
+        continue-on-error: true
+        if: env.REPO_TOKEN
+        uses: small-5/delete-workflow-runs@main
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
+          repository: 0
+          retain_min: 0
