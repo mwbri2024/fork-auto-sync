@@ -23,9 +23,9 @@ jobs:
           force: true  # 是否强制推送
           tags: true  # 确定是否使用-tags
 
-      - name: 清理Actions空间
+      - name: 清理运行记录
         uses: Mattraks/delete-workflow-runs@v2
         with:
           token: ${{ secrets.OKEN }}
-          #retain_days: 30     #保留最后多少记录不删除
-          keep_minimum_runs: 24
+          retain_days: 24     #保留最后多少记录不删除
+          keep_minimum_runs: 0
