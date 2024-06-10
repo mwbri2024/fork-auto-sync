@@ -29,4 +29,4 @@ jobs:
         uses: small-5/delete-workflow-runs@main
         with:
           token: ${{ secrets.OKEN }}
-          retain_min: 168
+          retain_min: 24
