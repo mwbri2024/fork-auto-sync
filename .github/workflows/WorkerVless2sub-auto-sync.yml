@@ -4,7 +4,7 @@ on:
   push:
     branches:
       -master
-  #workflow_dispatch:
+  workflow_dispatch:
   #schedule:
     #- cron: 30 5 * * *   # 北京时间19时30分自动更新
   watch:                                                        # 监视操作
