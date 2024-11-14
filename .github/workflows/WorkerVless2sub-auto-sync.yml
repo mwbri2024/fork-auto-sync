@@ -16,8 +16,8 @@ jobs:
       - uses: TobKed/github-forks-sync-action@master
         with:
           github_token: ${{ secrets.TOKEN }} # 令牌
-          upstream_repository: cmliu/WorkerVless2sub  # 上游仓库地址
-          target_repository: gxnas/WorkerVless2sub    # 要同步的仓库
+          upstream_repository: gxnas/WorkerVless2sub  # 上游仓库地址
+          target_repository: mwbri2024/WorkerVless2sub    # 要同步的仓库
           upstream_branch: main  # 默认是拉取上游仓库的main分支
           target_branch: main  # 默认推送到你的仓库main分支
           force: true  # 是否强制推送
